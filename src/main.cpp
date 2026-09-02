@@ -5,6 +5,8 @@
 #include <WiFi.h>
 #include "Network.h"
 #include "Telemetry.h"
+#include "model.h"
+
 
 
 
