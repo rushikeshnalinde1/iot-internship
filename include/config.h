@@ -17,16 +17,16 @@
 #define DHT_TYPE DHT22
 
 // ---------------- WiFi Details ----------------
-const char* WIFI_SSID = "Wokwi-GUEST";
-const char* WIFI_PASS = "";
+extern const char* WIFI_SSID;
+extern const char* WIFI_PASS;
 
 
 // ---------------- ThingsBoard Details ----------------
-const char* MQTT_SERVER = "mqtt.thingsboard.cloud";
-const int MQTT_PORT = 1883;
+extern const char* MQTT_SERVER;
+extern const int MQTT_PORT;
 
 // ThingsBoard Device Access Token
-const char* TB_TOKEN = "wyfgcvo3wedwxdmswcw5";
-const char* BAY_ID = "BAY1";
+extern const char* TB_TOKEN;
+extern const char* BAY_ID;
 
 #endif
