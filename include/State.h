@@ -8,8 +8,9 @@
 extern String bayStatus;
 extern float voltage, current, power, energyWh, temperature;
 
-// ---------------------------------------------------------------------
-// Timing / debounce bookkeeping
-// ---------------------------------------------------------------------
+extern unsigned long sessionStartMs;
+extern float predictedArrivalProb;
+extern int predictedDurationMin;
+extern int lastHourOfDay;
 
 #endif

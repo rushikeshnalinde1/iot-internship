@@ -24,6 +24,9 @@ void sample_sensor(void)
       //map currrent 0 to 32
       current = mapFloat(raw_current, 0, 4095, 0, 32);
    }
+
+   //read current and 5 values array
+
    //calculate power
    power = voltage * current;
 
@@ -38,6 +41,16 @@ void sample_sensor(void)
 
 }
 
+float recentAvgCurrent()
+{
+   float sum = 0;
+   //read recent 5 current values
+   for(int i=0; i<5; i++){
+      sum = sum + current;
+   }
+   return sum/5;
+}
+
 bool plugin_flag_once= 1;
 bool plugout_flag_once = 1;
 
@@ -47,6 +60,9 @@ void plug_status(void)
    // detect the sw is pressed
    if(pluginReading == LOW && plugin_flag_once)
    {
+      //session time
+      sessionStartMs = millis();
+
       // plug in switch is pressed
       plugin_flag_once = 0;
       // change bay_status FREE to charging

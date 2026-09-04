@@ -9,4 +9,6 @@ void sample_sensor(void);
 void plug_status(void);
 void update_led_status(void);
 
+float recentAvgCurrent();
+
 #endif

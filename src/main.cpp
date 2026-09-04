@@ -6,6 +6,7 @@
 #include "Network.h"
 #include "Telemetry.h"
 #include "model.h"
+#include "edge_ai.h"
 
 
 
@@ -16,6 +17,8 @@ void setup()
     //initialize serial monitor
     Serial.begin(115200);
     dht.begin();  
+    // config esp32 with real time
+    configTime(0, 0, "pool.ntp.org", "time.nist.gov");
     //config periperal pins
     pinMode(BTN_PLUGIN, INPUT_PULLUP);
     pinMode(BTN_PLUGOUT, INPUT_PULLUP);
@@ -47,8 +50,11 @@ void loop()
         last_print = now;
         // read data from sensor // voltage, current, temperature, power, bay status
         sample_sensor();
+        //run AI to get prediction
+        runEdgeAIInference();
         //publish the data
         publishTelemetry();
+        
     }
     plug_status();
     update_led_status();

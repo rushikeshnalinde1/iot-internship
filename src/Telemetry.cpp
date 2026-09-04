@@ -23,12 +23,15 @@ void publishTelemetry() {
   doc["power"] = round(power * 10) / 10.0;
   doc["temperature"] = round(temperature * 10) / 10.0;
   doc["bayStatus"] = bayStatus;
+  //adding 2 more values to the buffer
+  doc["predictedArrivalProb"] = round(predictedArrivalProb*100)/100.0;
+  doc["predictedDurationMin"] = predictedDurationMin;
   
 
   char buffer[350];
   serializeJson(doc, buffer);
 
-  //push the data to cloud
+  //push the data to cloud , topic, dat -> buffer
   mqtt.publish("v1/devices/me/telemetry", buffer);
   Serial.print("[MQTT >>] ");
   Serial.println(buffer);
