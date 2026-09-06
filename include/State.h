@@ -13,4 +13,14 @@ extern float predictedArrivalProb;
 extern int predictedDurationMin;
 extern int lastHourOfDay;
 
+extern String loadDecision;
+extern int throttleLevel;
+
+extern float predictionThreshold; //0 to 1
+extern int peakTariffStartHr;
+extern int peakTariffEndHr;
+extern bool overloadActive;
+extern int overloadCurrentA;
+extern int maxStationLoadW; // Maximum station load in watts
+
 #endif

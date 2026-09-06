@@ -26,6 +26,10 @@ void publishTelemetry() {
   //adding 2 more values to the buffer
   doc["predictedArrivalProb"] = round(predictedArrivalProb*100)/100.0;
   doc["predictedDurationMin"] = predictedDurationMin;
+  //add load decision throttle level overload
+  doc["throttleLevel"] = throttleLevel;
+  doc["loadDecision"] = loadDecision;
+  doc["overloadActive"] = overloadActive;
   
 
   char buffer[350];

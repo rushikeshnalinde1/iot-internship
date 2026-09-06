@@ -7,6 +7,7 @@
 #include "Telemetry.h"
 #include "model.h"
 #include "edge_ai.h"
+#include "optimization.h"
 
 
 
@@ -52,12 +53,15 @@ void loop()
         sample_sensor();
         //run AI to get prediction
         runEdgeAIInference();
+        //decide load based on the prediction
+        runOptimization();
+
         //publish the data
         publishTelemetry();
         
     }
     plug_status();
-    update_led_status();
+    updateLeds();
     
 }
 

@@ -110,7 +110,7 @@ void plug_status(void)
 
 }
 
-void update_led_status(void)
+/*void update_led_status(void)
 {
    //if bay_status free turn on green led
    if(bayStatus == "FREE")
@@ -125,3 +125,4 @@ void update_led_status(void)
    }
    //if bay_status charging turn on yellow led
 }
+*/
