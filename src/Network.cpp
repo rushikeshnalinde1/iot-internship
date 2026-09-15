@@ -1,7 +1,9 @@
 #include <WiFi.h>
+#include <ArduinoJson.h>
 #include "network.h"
 #include "config.h"
-
+#include "attributes.h"
+#include "rpc.h"
 
 WiFiClient espClient;
 PubSubClient mqtt(espClient);
@@ -23,7 +25,10 @@ void connectMQTT() {
   Serial.print("Connecting to ThingsBoard MQTT...");
   if (mqtt.connect(BAY_ID, TB_TOKEN, NULL)) {
     Serial.println(" connected.");
-    
+    mqtt.subscribe("v1/devices/me/attributes");             // push updates
+    mqtt.subscribe("v1/devices/me/attributes/response/+");  // reply to our request
+    mqtt.subscribe("v1/devices/me/rpc/request/+");          // RPC commands
+    requestSharedAttributes();
   } else {
     Serial.print(" failed, rc=");
     Serial.println(mqtt.state());
@@ -35,3 +40,32 @@ void connectMQTT() {
 // Single MQTT callback, dispatched by topic: attribute push/response vs.
 // RPC request. This is where Phase 6's two device-side features live.
 // ---------------------------------------------------------------------
+void mqttCallback(char* topic, byte* payload, unsigned int length) {
+ //copy the entire topic and messagee into a string
+  String topicStr = String(topic);
+  char buf[400];
+  unsigned int n = length < sizeof(buf) - 1 ? length : sizeof(buf) - 1;
+  memcpy(buf, payload, n);
+  buf[n] = '\0';
+
+  //print the recived data
+  Serial.print("[MQTT <<] ");
+  Serial.print(topicStr);
+  Serial.print(" ");
+  Serial.println(buf);
+
+  if (topicStr.startsWith("v1/devices/me/rpc/request/")) {
+    String requestId = topicStr.substring(topicStr.lastIndexOf('/') + 1);
+    handleRpc(requestId, buf);  //topic and the data
+    return;
+  }
+
+  // Both attribute topics carry attribute key/value pairs; the /response/
+  // topic nests them one level under "shared", the push topic does not.
+  StaticJsonDocument<256> doc;
+  DeserializationError err = deserializeJson(doc, buf);
+  if (err) return;
+
+  JsonObject attrs = doc.containsKey("shared") ? doc["shared"].as<JsonObject>() : doc.as<JsonObject>();
+  applySharedAttributes(attrs);
+}

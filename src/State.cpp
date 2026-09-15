@@ -20,3 +20,4 @@ int peakTariffEndHr = 21;
 bool overloadActive = false;
 int overloadCurrentA = 16;
 int maxStationLoadW = 3000; // Maximum station load in watts
+bool manualOverrideActive = 0;

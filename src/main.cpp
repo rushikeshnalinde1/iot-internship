@@ -8,6 +8,8 @@
 #include "model.h"
 #include "edge_ai.h"
 #include "optimization.h"
+#include "rpc.h"
+#include "attributes.h"
 
 
 
@@ -34,6 +36,9 @@ void setup()
     
     // Configure MQTT server
     mqtt.setServer(MQTT_SERVER, MQTT_PORT);//mqqt server addr of things and port number
+    //set call back function upon reciving data from the cloud
+    mqtt.setCallback(mqttCallback);
+    mqtt.setBufferSize(512); 
 
     //connect board to cloud
     connectMQTT(); //TOKEN, device id 
@@ -54,8 +59,10 @@ void loop()
         //run AI to get prediction
         runEdgeAIInference();
         //decide load based on the prediction
-        runOptimization();
-
+        if(manualOverrideActive == 0){
+            runOptimization();
+        }
+        
         //publish the data
         publishTelemetry();
         

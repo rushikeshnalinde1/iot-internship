@@ -24,6 +24,9 @@ void sample_sensor(void)
       //map currrent 0 to 32
       current = mapFloat(raw_current, 0, 4095, 0, 32);
    }
+   else{
+      current = 0;
+   }
 
    //read current and 5 values array
 

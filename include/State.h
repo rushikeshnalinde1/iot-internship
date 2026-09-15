@@ -22,5 +22,5 @@ extern int peakTariffEndHr;
 extern bool overloadActive;
 extern int overloadCurrentA;
 extern int maxStationLoadW; // Maximum station load in watts
-
+extern bool manualOverrideActive;
 #endif
